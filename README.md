@@ -60,7 +60,7 @@
 | street              | string     | null: false                    |
 | building            | string     | null: true                     |
 | phone_number        | string     | null: false                    |
-| oder                | references | null: false, foreign_key:true  |
+| order                | references | null: false, foreign_key:true  |
 
 ### Association
 
