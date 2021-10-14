@@ -4,19 +4,19 @@
 
 | Column             | Type   | Options                   |
 | ------------------ | ------ | ------------------------- |
-| nickname           | string | null: false, unique: true |
+| nickname           | string | null: false               |
 | email              | string | null: false, unique: true |
-| encrypted_password | string | null: false, unique: true |
+| encrypted_password | string | null: false               |
 | last_name          | string | null: false               |
 | first_name         | string | null: false               |
 | last_name_kana     | string | null: false               |
 | first_name_kana    | string | null: false               |
-| birth_date         | string | null: false               |
+| birth_date         | date   | null: false               |
 
 ### Association
 
 - has_many :items
-- has_many :purchase_records
+- has_many :orders
 
 ## items テーブル
 
@@ -24,29 +24,23 @@
 | ------------------- | ---------- | ------------------------------ |
 | product_name        | string     | null: false                    |
 | description         | text       | null: false                    |
-| category            | string     | null: false                    |
-| status              | string     | null: false                    |
-| delivery_fee        | string     | null: false                    |
-| shipping_area       | string     | null: false                    |
-| ship_time           | string     | null: false                    |
+| category_id         | integer    | null: false                    |
+| status_id           | integer    | null: false                    |
+| delivery_fee_id     | integer    | null: false                    |
+| shipping_area_id    | integer    | null: false                    |
+| ship_time_id        | integer    | null: false                    |
 | price               | integer    | null: false                    |
-| seller              | references | null: false, foreign_key: true |
-| buyer               | references | null: true, foreign_key: true  |
+| user_id             | references | null: false, foreign_key: true |
 
 ### Association
 
-- has_one :purchase_record
+- has_one :order
 - belongs_to :user
 
-## purchase_records テーブル
+## orders テーブル
 
 | Column              | Type       | Options                        |
 | ------------------- | ---------- | ------------------------------ |
-| region              | string     | null: false                    |
-| city                | string     | null: false                    |
-| street              | string     | null: false                    |
-| building            | string     | null: true                     |
-| phone_number        | integer    | null: false                    |
 | user_id             | references | null: false, foreign_key: true |
 | item_id             | references | null: false, foreign_key: true |
 
@@ -54,3 +48,19 @@
 
 - belongs_to :item
 - belongs_to :user
+- has_one :purchase_record
+
+## purchase_records テーブル
+
+| Column              | Type       | Options                        |
+| ------------------- | ---------- | ------------------------------ |
+| postcode            | integer    | null: false                    |
+| region              | string     | null: false                    |
+| city                | string     | null: false                    |
+| street              | string     | null: false                    |
+| building            | string     | null: true                     |
+| phone_number        | integer    | null: false                    |
+
+### Association
+
+- belongs_to :oder
