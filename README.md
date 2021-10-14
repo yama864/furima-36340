@@ -30,7 +30,7 @@
 | shipping_area_id    | integer    | null: false                    |
 | ship_time_id        | integer    | null: false                    |
 | price               | integer    | null: false                    |
-| user_id             | references | null: false, foreign_key: true |
+| user                | references | null: false, foreign_key: true |
 
 ### Association
 
@@ -41,8 +41,8 @@
 
 | Column              | Type       | Options                        |
 | ------------------- | ---------- | ------------------------------ |
-| user_id             | references | null: false, foreign_key: true |
-| item_id             | references | null: false, foreign_key: true |
+| user                | references | null: false, foreign_key: true |
+| item                | references | null: false, foreign_key: true |
 
 ### Association
 
@@ -54,12 +54,13 @@
 
 | Column              | Type       | Options                        |
 | ------------------- | ---------- | ------------------------------ |
-| postcode            | integer    | null: false                    |
-| region              | string     | null: false                    |
+| postcode            | string     | null: false                    |
+| region_id           | integer    | null: false                    |
 | city                | string     | null: false                    |
 | street              | string     | null: false                    |
 | building            | string     | null: true                     |
-| phone_number        | integer    | null: false                    |
+| phone_number        | string     | null: false                    |
+| oder                | references | null: false, foreign_key:true  |
 
 ### Association
 
