@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   before do
     @item = FactoryBot.build(:item)
+    @user = FactoryBot.create(:user)
   end
 
-  describe 'ユーザー新規登録' do
+  describe '商品出品機能' do
     context '内容に問題ない場合' do
       it '全ての項目が入力されていれば登録できる' do
         expect(@item).to be_valid
@@ -43,6 +44,11 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping area can't be blank")
       end
+      it '送料負担を選択していなければ出品できない' do
+        @item.delivery_fee_id = '0'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery fee can't be blank")
+      end
       it '発送までの日数を選択していなければ出品できない' do
         @item.ship_time_id = '0'
         @item.valid?
@@ -58,7 +64,7 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be greater than or equal to 300')
       end
-      it '価格が9,999,999円以上だと出品できない' do
+      it '価格が10,000,000円以上だと出品できない' do
         @item.price = '10000000'
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
@@ -67,6 +73,11 @@ RSpec.describe Item, type: :model do
         @item.price = '５００'
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not a number')
+      end
+      it 'userが紐付いていないと保存できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end
