@@ -3,7 +3,11 @@ class Item < ApplicationRecord
   has_one_attached :image
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to :category, :status, :delivery_fee, :shipping_area, :ship_time
+  belongs_to :category
+  belongs_to :status
+  belongs_to :delivery_fee
+  belongs_to :shipping_area
+  belongs_to :ship_time
 
   validates :product_name, presence: true
   validates :description, presence: true
