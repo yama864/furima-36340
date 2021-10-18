@@ -1,5 +1,8 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: :new
+  before_action :move_to_sign_in, except: [:index, :show]
+  before_action :set_item, only: [:show, :update, :edit]
+
   def index
     @items = Item.order('created_at DESC')
   end
@@ -9,7 +12,18 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
+  end
+
+  def update
+    if @item.update(item_params)
+      redirect_to action: :show
+    else
+      render action: :edit
+    end
+  end
+
+  def edit
+    redirect_to action: :index unless @item.user_id == current_user.id
   end
 
   def create
@@ -29,5 +43,13 @@ class ItemsController < ApplicationController
                                  :delivery_fee_id, :shipping_area_id,
                                  :ship_time_id, :price, :image)
           .merge(user_id: current_user.id)
+  end
+
+  def move_to_sign_in
+    redirect_to user_session_path unless user_signed_in?
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
   end
 end
