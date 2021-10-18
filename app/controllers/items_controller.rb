@@ -29,9 +29,11 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    @item.destroy
-    unless @item.user_id == current_user.id
-      redirect_to action: :show
+    if @item.user_id == current_user.id
+      @item.destroy
+      redirect_to action: :index
+    else
+      render action: :show
     end
   end
 
