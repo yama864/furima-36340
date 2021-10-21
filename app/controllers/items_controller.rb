@@ -45,7 +45,7 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:product_name, :description,
                                  :category_id, :status_id,
-                                 :delivery_fee_id, :shipping_area_id,
+                                 :delivery_fee_id, :region_id,
                                  :ship_time_id, :price, :image)
           .merge(user_id: current_user.id)
   end
@@ -59,6 +59,6 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    redirect_to root_path unless @item.user_id == current_user.id
+    redirect_to root_path unless @item.user_id == current_user.id && !@item.order.present?
   end
 end
