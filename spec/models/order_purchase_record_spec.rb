@@ -2,11 +2,18 @@ require 'rails_helper'
 
 RSpec.describe OrderPurchaseRecord, type: :model do
   before do
-    @order_purchase_record = FactoryBot.build(:order_purchase_record)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    @order_purchase_record = FactoryBot.build(:order_purchase_record, user_id: @user.id, item_id: @item.id)
+    sleep 0.1 
   end
 
   context '内容に問題ない場合' do
     it '全ての入力があれば購入できる' do
+      expect(@order_purchase_record).to be_valid
+    end
+    it '建物名は空でも購入できる' do
+      @order_purchase_record.building = ''
       expect(@order_purchase_record).to be_valid
     end
   end
@@ -42,8 +49,13 @@ RSpec.describe OrderPurchaseRecord, type: :model do
       @order_purchase_record.valid?
       expect(@order_purchase_record.errors.full_messages).to include("Phone number can't be blank")
     end
-    it '電話番号は10桁以上11桁以内で入力していないと購入できない' do
+    it '電話番号は10桁以下での入力だと購入できない' do
       @order_purchase_record.phone_number = '123456789'
+      @order_purchase_record.valid?
+      expect(@order_purchase_record.errors.full_messages).to include('Phone number is invalid')
+    end
+    it '電話番号は12桁以上での入力だと購入できない' do
+      @order_purchase_record.phone_number = '123456789012'
       @order_purchase_record.valid?
       expect(@order_purchase_record.errors.full_messages).to include('Phone number is invalid')
     end
@@ -56,6 +68,16 @@ RSpec.describe OrderPurchaseRecord, type: :model do
       @order_purchase_record.token = ''
       @order_purchase_record.valid?
       expect(@order_purchase_record.errors.full_messages).to include("Token can't be blank")
+    end
+    it 'user_idが空だと登録できない' do
+      @order_purchase_record.user_id = ''
+      @order_purchase_record.valid?
+      expect(@order_purchase_record.errors.full_messages).to include("User can't be blank")
+    end
+    it 'item_idが空だと登録できない' do
+      @order_purchase_record.item_id = ''
+      @order_purchase_record.valid?
+      expect(@order_purchase_record.errors.full_messages).to include("Item can't be blank")
     end
   end
 end

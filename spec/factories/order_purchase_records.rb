@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :order_purchase_record do
-    user_id               { '1' }
-    item_id               { '1' }
+
     token                 { 'tok_abcdefghijk00000000000000000' }
     postcode              { '111-1111' }
     region_id             { Faker::Number.between(from: 1, to: 47) }

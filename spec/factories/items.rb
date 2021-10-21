@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :item do
     image                 { Rack::Test::UploadedFile.new(File.join(Rails.root, 'app/assets/images/flag.png')) }
-    product_name          { Faker::String.random(length: 50) }
-    description           { Faker::String.random(length: 500) }
+    product_name          { 'テスト' }
+    description           { 'テスト' }
     category_id           { Faker::Number.between(from: 1, to: 10) }
     status_id             { Faker::Number.between(from: 1, to: 6) }
     delivery_fee_id       { Faker::Number.between(from: 1, to: 2) }
