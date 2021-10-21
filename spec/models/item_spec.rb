@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   before do
-    binding.pry
     @item = FactoryBot.build(:item)
     @user = FactoryBot.create(:user)
   end
