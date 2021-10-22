@@ -40,9 +40,9 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Status can't be blank")
       end
       it '発送元の都道府県を選択していなければ出品できない' do
-        @item.shipping_area_id = '0'
+        @item.region_id = '0'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping area can't be blank")
+        expect(@item.errors.full_messages).to include("Region can't be blank")
       end
       it '送料負担を選択していなければ出品できない' do
         @item.delivery_fee_id = '0'
